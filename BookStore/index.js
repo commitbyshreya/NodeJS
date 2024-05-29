@@ -10,6 +10,8 @@ const app = express()
 app.use(logger("dev"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.set('view engine', 'pug')
+app.set('views', 'views')
 
 app.use("/admin", require("./routes/adminRoutes"))
 app.use (require("./routes/shopRoutes"))
