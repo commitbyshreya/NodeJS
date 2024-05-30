@@ -67,6 +67,14 @@ const loginUser = asyncHandler(async (req, res) => {
       process.env.ACCESSTOKEN_SECRET,
       { expiresIn: "10m" }
     );
+
+    //set cookie with user's email
+    res.cookie("userEmail", user.email, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 90000,
+    });
+
     res.status(200).json({ accessToken });
   } else {
     res.status(401);

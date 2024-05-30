@@ -4,6 +4,7 @@ const logger = require("morgan");
 const errorHandler = require("./middleware/errorHandler");
 const connectDb = require("./config/dbConnection");
 const path = require("path")
+const cookieParser = require("cookie-parser")
 
 connectDb();
 
@@ -11,6 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
+app.use(cookieParser)
 
 
 const port = process.env.PORT || 3001;
