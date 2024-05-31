@@ -15,7 +15,13 @@ const userSchema = mongoose.Schema({
         required: true
     },
     image: {
-        type: String,
+        // type: Buffer, // Use Buffer type to store image data
+        // required: false,
+        type: String,  // use string to store on disk 
+        required: true
+    },
+    document: {
+        type: String,  // use string to store on disk 
         required: true
     },
     password: {

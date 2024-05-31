@@ -13,11 +13,12 @@ const loadRegister = asyncHandler(async (req, res) => {
 // POST - /user/register
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, phone, password } = req.body;
-  const image = req.file ? req.file.filename : null;
+  // const image = req.file ? req.file.buffer : null; // Memory Storage
+ // const image = req.file ? req.file.image : null; // Upload.single()
 
-  //   if (!name || !email || !phone || !password || !image) {
-  //     return res.status(400).json({ message: "All fields are required" });
-  //   }
+  // Use Case -> when upload.fields() is used
+  const imageFile = req.files && req.files.image ? req.files.image[0] : null;
+  const documentFile = req.files && req.files.document ? req.files.document[0] : null;
 
   //hashedpassword
   const hashedpassword = await bcrypt.hash(password, 10);
@@ -26,8 +27,13 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     phone,
-    image,
+    //Upload.fileds()
+    // imagefile.filname -> because an array is stored, this gives the filename of each file in the array 
+    image: imageFile.filename,
+    document: documentFile.filename,
     password: hashedpassword,
+    //Upload.single()
+    //image
     isAdmin: 0,
   });
 
