@@ -6,11 +6,10 @@
     <p></p>
 <% } %>
 
-<h1>Login</h1>
-<form action="/user/login" method="post">
+<h1>Forget</h1>
+<form action="/user/forget" method="post">
     <input type="text" name="email" placeholder="Enter your email" required><br><br>
-    <input type="text" name="password" id="password" placeholder="Enter your password" required><br><br>
-    <input type="submit" name="submit" value="Login" id=""><br><br>
+    <input type="submit" name="submit" value="Send Reset Link" id=""><br><br>
 </form>
-<button><a href="/user/forget">Forget Password</a></button>
+
 <% include('../layouts/footer.ejs') %>

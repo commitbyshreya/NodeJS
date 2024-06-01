@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { loadRegister, registerUser , verifyEmail, loadLogin, loginUser, loadHome, logOut} = require('../controllers/userController') 
+const { loadRegister, registerUser , verifyEmail, loadLogin, loginUser, loadHome, logOut, forgetLoad, verifyForget, loadForgetPass, setForgetpass} = require('../controllers/userController') 
 const upload = require('../utils/multer')
 const session = require('express-session')
 const { isLogIn, isLogOut } = require('../middleware/auth')
@@ -14,6 +14,9 @@ router.route('/register').get(isLogOut,loadRegister).post(upload.fields([{ name:
 router.route('/verify').get(verifyEmail)
 router.route('/login').get(isLogOut,loadLogin).post(loginUser)
 router.route('/home').get(isLogIn, loadHome)
-router.route('/logout').get(isLogIn,logOut)
+router.route('/logout').get(isLogIn, logOut)
+router.route('/forget').get(isLogOut,forgetLoad).post(isLogOut,verifyForget)
+router.route('/forget-pass').get(isLogOut,loadForgetPass)
+router.route('/forget-pass').post(isLogOut,setForgetpass)
 
 module.exports = router

@@ -1,0 +1,16 @@
+<% include('../layouts/header.ejs') %>
+
+<% if (typeof message !== 'undefined') { %>
+    <h1 style="color: green;"><%= message %></h1>
+<% } else { %>
+    <p></p>
+<% } %>
+
+<h1>Forget password</h1>
+<form action="/user/forget" method="post">
+    <input type="password" name="password" placeholder="Enter new password" required><br><br>
+    <input type="hidden" name="user_id" value="<%= user_id %>">
+    <input type="submit" name="submit" value="Reset password" id=""><br><br>
+</form>
+
+<% include('../layouts/footer.ejs') %>
