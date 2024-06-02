@@ -202,7 +202,8 @@ const loadForgetPass = asyncHandler(async (req, res) => {
   
 //POST -> /user/forget-pass
 const setForgetpass = asyncHandler(async (req, res) => {
-  const { password,user_id } = req.body
+  const { password, user_id } = req.body
+  console.log(password)
   const hashedpassword = await bcrypt.hash(password, 10)
   const updatedPassword = await User.findByIdAndUpdate({ _id: user_id }, { $set: { password: hashedpassword, token: '' } })
   res.redirect('/user/login')
