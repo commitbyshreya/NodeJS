@@ -75,7 +75,7 @@ const loginUser = asyncHandler(async (req, res) => {
       maxAge: 90000,
     });
 
-    res.status(200).json({ accessToken });
+    res.status(200).json({message:"loggedIn",  accessToken });
   } else {
     res.status(401);
     throw new Error("Email or PAassword is not valid!");

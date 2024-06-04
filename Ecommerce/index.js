@@ -3,6 +3,7 @@ const dotenv = require("dotenv").config();
 const logger = require("morgan");
 const connectDb = require("./config/dbConnect");
 const path = require("path");
+const errorHandler = require('./middleware/errorHandler')
 
 connectDb();
 
@@ -16,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
 
 app.use("/user", require("./routes/userRoutes"));
+app.use(errorHandler)
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
