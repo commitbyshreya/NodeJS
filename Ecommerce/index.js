@@ -4,7 +4,7 @@ const logger = require("morgan");
 const connectDb = require("./config/dbConnect");
 const path = require("path");
 
-// connectDb();
+connectDb();
 
 const port = process.env.PORT || 30001;
 
