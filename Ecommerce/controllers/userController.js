@@ -75,7 +75,7 @@ const sendResetPassMail = asyncHandler(async (name, email, token) => {
   })
 })
 
-//POST -> /user/register
+//POST -> /api/register
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, phone, type } = req.body;
   const image = req.file ? req.file.filename : null;
@@ -109,7 +109,7 @@ const registerUser = asyncHandler(async (req, res) => {
   res.status(200).json(user);
 });
 
-//POST -> /user/login
+//POST -> /api/login
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -140,12 +140,12 @@ const loginUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Logged In", accessToken });
 });
 
-//GET -> /user/home
+//GET -> /api/home
 const homePage = asyncHandler(async (req, res) => {
   res.json({ message: "Welcome" });
 });
 
-//POST -> /user/update-pass
+//POST -> /api/update-pass
 const updatePassword = asyncHandler(async (req, res) => {
   const { userId, currPass, newPass } = req.body;
 
@@ -167,7 +167,7 @@ const updatePassword = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "password updated" });
 });
 
-//POST -> /user/forget-pass
+//POST -> /api/forget-pass
 const forgetPassword = asyncHandler(async (req, res) => {
   const { email }  = req.body;
   const user = await User.findOne({ email:email });
@@ -183,7 +183,7 @@ const forgetPassword = asyncHandler(async (req, res) => {
  
 });
 
-//POST -> /user/reset-pass
+//POST -> /api/reset-pass
 const resetPassword = asyncHandler(async (req, res) => {
   const token = req.query.token
   const {password} = req.body

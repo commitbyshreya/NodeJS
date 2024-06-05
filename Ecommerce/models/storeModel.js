@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const storeSchema = mongoose.Schema({
-    vender_id: {
+    vendor_id: {
         type: String,
         required:true
     },

@@ -16,8 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger("dev"));
 
-app.use("/user", require("./routes/userRoutes"));
-app.use("/vendor", require("./routes/storeRoutes"));
+app.use("/api", require("./routes/userRoutes"));
+app.use("/api", require("./routes/storeRoutes"));
+app.use("/api", require("./routes/categoryRoutes"));
 app.use(errorHandler)
 
 app.listen(port, () => {
