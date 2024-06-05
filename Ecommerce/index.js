@@ -19,6 +19,7 @@ app.use(logger("dev"));
 app.use("/api", require("./routes/userRoutes"));
 app.use("/api", require("./routes/storeRoutes"));
 app.use("/api", require("./routes/categoryRoutes"));
+app.use("/api", require("./routes/productRoutes"));
 app.use(errorHandler)
 
 app.listen(port, () => {
