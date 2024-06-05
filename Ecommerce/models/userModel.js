@@ -28,6 +28,13 @@ const userSchema = mongoose.Schema({
         type: Number,  
         required: true
     },
+    token: {
+        type: String,
+        default: ''
+    },
+    tokenExpiration: {
+        type:Date
+    }
     
 }, {
     timestamps: true
