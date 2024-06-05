@@ -136,8 +136,16 @@ const loginUser = asyncHandler(async (req, res) => {
     process.env.TOKEN_SECRET,
     { expiresIn: "30m" }
   );
-
-  res.status(200).json({ message: "Logged In", accessToken });
+  const refreshToken = jwt.sign(
+    {
+      user: {
+        user_id: user.id,
+      },
+    },
+    process.env.TOKEN_SECRET,
+    { expiresIn: "30d" }
+  )
+  res.status(200).json({ message: "Logged In", accessToken,refreshToken });
 });
 
 //GET -> /api/home
@@ -201,4 +209,40 @@ const resetPassword = asyncHandler(async (req, res) => {
   
 })
 
-module.exports = { registerUser, loginUser, homePage, updatePassword, forgetPassword, resetPassword };
+//POST -> /api/refresh-token
+const refreshToken = asyncHandler(async (req, res) => {
+   // Extract the refresh token from the request body
+   const { refreshToken } = req.body;
+
+   try {
+     // Verify the refresh token to ensure its validity
+     const decoded = jwt.verify(refreshToken, process.env.TOKEN_SECRET);
+ 
+     // Retrieve the user associated with the refresh token
+     const user = await User.findById(decoded.user.user_id);
+ 
+     if (!user) {
+       res.status(404);
+       throw new Error('User not found');
+     }
+ 
+     // Generate a new access token for the user
+     const accessToken = jwt.sign(
+       {
+         user: {
+           user_id: user.id,
+         },
+       },
+       process.env.TOKEN_SECRET,
+       { expiresIn: '30m' }
+     );
+ 
+     // Send the new access token back to the client
+     res.status(200).json({ message: 'Refreshed Token', accessToken });
+   } catch (error) {
+     // Handle token verification errors
+     res.status(401).json({ message: 'Invalid refresh token' });
+   }
+})
+
+module.exports = { registerUser, loginUser, homePage, updatePassword, forgetPassword, resetPassword , refreshToken};
