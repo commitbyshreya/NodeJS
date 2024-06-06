@@ -40,4 +40,10 @@ const createStore = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Store created!", data: createdStore });
 });
 
-module.exports = { createStore };
+//GET -> /api/get-store
+const getStore = async (id) => {
+  const store = await Store.findOne({_id:id})
+  return store
+}
+
+module.exports = { createStore , getStore};

@@ -17,4 +17,11 @@ const addCategory = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Category Added!" });
 });
 
-module.exports = { addCategory };
+//GET -> /api/get-cat
+const getCategories = asyncHandler(async(req, res) => {
+  const categories = await Category.find()
+  return categories
+  // res.status(200).json({categories: categories})
+})
+
+module.exports = { addCategory, getCategories };
