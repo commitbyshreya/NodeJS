@@ -63,6 +63,22 @@ const getProducts = asyncHandler(async (req, res) => {
     }
 })
 
+//GET -> /api/getProd?page=2&size=10  //PAGINATION
+const paginatedGetProd = asyncHandler(async (req, res) => {
+    let { page, size } = req.query
+    if (!page) {
+        page = 1
+    }
+    if (!size) {
+        size = 10
+    }
+    const limit = parseInt(size)
+    const skip = (page - 1) * size 
+    
+    const products = await Product.find().limit(limit).skip(skip)
+    res.json({products:products})
+})
+
 //GET -> /api/search-prod
 const searchProduct = asyncHandler(async (req, res) => {
     const { search } = req.body
