@@ -10,13 +10,18 @@
     <h1>Hello World</h1>
     <script>
         var socket = io();
+
+        socket.on('newUserConnect', (data)=>{
+            document.body.innerHTML = ''
+            document.write(data.message)
+        })
         //CASE 1: sending custom msg from server and catching on client
         /* socket.on('customMsg', (data)=>{
             console.log("Message received: " + data.msg);
             document.write(data.msg);
         }) */
          //CASE 2: sending custom msg from client and catching on server side
-        socket.emit('customMsg','Client side msg')
+        //socket.emit('customMsg','Client side msg')  
     </script>
 </body>
 </html>
