@@ -4,7 +4,6 @@ const dotenv = require("dotenv").config();
 const path = require("path");
 const socketio = require("socket.io");
 const http = require("http");
-const { setTimeout } = require("timers/promises");
 
 const app = express();
 
@@ -15,51 +14,34 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "index2.html"));
 });
 
-//create http server instance
-const server = http.createServer(app);
+const server = http.createServer(app)
 
-//attach socket io to http server instance
-const io = socketio(server);
+const io = socketio(server)
 
-var users = 0;
-//handle socket connection
-io.on("connection", (socket) => {
-  console.log("User connected");
-  users++;
+var room_no = 1
+var totalUsers = 0
 
-  // socket.emit() -> emit event to only the client who has connected
-  socket.emit("newUserConnect", { message: "Hi , Welcome to the chat" });
-  //socket.broadcast.emit() -> emit event to all connected client except the one who initiated the event
-  socket.broadcast.emit('newUserConnect', {message: users + " Users Connected!"})
+io.on('connection', (socket) => {
+  console.log("User connected")
 
-  //handle disconnection
+  //client joined a room and channel(room) is created
+  socket.join('room-' + room_no)
+
+  io.sockets.in('room-' + room_no).emit('connectedRoom', 'You are connected to room no: ' + room_no)
+  totalUsers++
+ 
+  if (totalUsers >= 2) {
+    totalUsers = 0
+    room_no++
+  }
+
   socket.on("disconnect", () => {
-    console.log("User disconnected");
-    users--;
-    socket.broadcast.emit('newUserConnect', {message: users + " Users Connected!"})
-  //io.sockets.emit() -> emit event to all connected clients
-  // io.sockets.emit("broadcaste", { message: users + " users connected!" });
-    
-    socket.broadcast.emit('newUserConnect', {message: users + " Users Connected!"})
-  });
-
-  //handle custom event
-
-  //   setTimeout(() => {
-  //       // socket.send("Msg sent from server side");
-  //   }, 3000);
-
-  //CASE 1: sending custom msg from server and catching on client side
-  //   socket.emit('customMsg', {msg:'Server side msg'})
-
-  //CASE 2: sending custom msg from client side and catching on server side
-  socket.on("customMsg", (data) => {
-    console.log(data);
-  });
-});
+    console.log("User disconnected!")
+  })
+})
 
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
